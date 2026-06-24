@@ -44,10 +44,24 @@ export default function Register() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+
+    if (data) {
+      toast.success("Successfully logged in!");
+      redirect("/");
+    }
+    if (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <div className="flex justify-center min-h-screen w-full bg-white">
       <div className="flex w-full items-center justify-center px-6 py-12 lg:w-1/2 lg:px-16 xl:px-24">
-        <div className="w-full max-w-md space-y-8">
+        <div className="w-full max-w-xl border border-border rounded-xl shadow-xl p-4 md:p-8 space-y-8">
           <div>
             <h2 className="text-3xl font-black tracking-tight text-[#0f111a]">
               Create your account
@@ -195,7 +209,7 @@ export default function Register() {
             <Button
               variant="bordered"
               className="w-full rounded-xl border-gray-200 bg-white py-6 font-medium text-gray-700 hover:bg-gray-50"
-              onClick={() => console.log("Google Login Triggered")}
+              onClick={() => handleGoogleLogin()}
             >
               <FcGoogle className="mr-1 h-4 w-4" />
               Sign in with Google
@@ -205,7 +219,7 @@ export default function Register() {
             <p className="text-center text-sm text-gray-500">
               Already have an account?{" "}
               <Link
-                href="#"
+                href="/login"
                 className="text-sm font-semibold text-[#1e1b9b] hover:underline"
               >
                 Sign in
