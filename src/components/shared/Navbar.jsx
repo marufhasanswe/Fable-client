@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { Link, Button } from "@heroui/react";
 import { Bars, Xmark } from "@gravity-ui/icons";
+import { authClient } from "@/lib/auth-client";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
 
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white">
@@ -52,19 +55,37 @@ export default function Navbar() {
 
           {/* Right: Auth Action Buttons */}
           <div className="hidden items-center gap-4 md:flex">
-            <Link
-              href="#"
-              className="text-base font-medium text-gray-700 hover:text-gray-900"
-            >
-              Login
-            </Link>
-            <Button
-              as={Link}
-              href="#"
-              className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white hover:bg-[#161373]"
-            >
-              Logout
-            </Button>
+            {user && <p>Hi, {user.name}</p>}
+            {!user && (
+              <>
+                <Link
+                  href="/login"
+                  className="text-base font-medium text-gray-700 hover:text-gray-900"
+                >
+                  Login
+                </Link>
+                <Link href="/register">
+                  <Button
+                    as={Link}
+                    href="#"
+                    className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white hover:bg-[#161373]"
+                  >
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
+
+            {user && (
+              <Button
+                onClick={() => authClient.signOut()}
+                as={Link}
+                href="#"
+                className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white hover:bg-[#161373]"
+              >
+                Logout
+              </Button>
+            )}
           </div>
 
           {/* Mobile Hamburger Toggle Buttons (Gravity UI Icons) */}
