@@ -1,9 +1,9 @@
-import Image from "next/image";
+import HeroBanner from "./components/homepage/HeroBanner";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      Fable
+    <div>
+      <HeroBanner />
     </div>
   );
 }
