@@ -6,11 +6,11 @@ import { BookOpen, PencilToLine } from "@gravity-ui/icons";
 import { FcGoogle } from "react-icons/fc";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 export default function Register() {
   // State to handle the interactive role selection cards
   const [role, setRole] = useState("user"); // 'reader' or 'creator'
-
+  const router = useRouter();
   // States for form inputs and validation
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -37,7 +37,7 @@ export default function Register() {
     });
     if (data) {
       toast.success("Registration successful!");
-      redirect("/");
+      router.push("/");
     }
     if (error) {
       toast.error(error.message);
@@ -47,14 +47,11 @@ export default function Register() {
   const handleGoogleLogin = async () => {
     const data = await authClient.signIn.social({
       provider: "google",
+      callbackURL: "/register/roleChoose",
     });
 
     if (data) {
       toast.success("Successfully logged in!");
-      redirect("/");
-    }
-    if (error) {
-      toast.error(error.message);
     }
   };
 

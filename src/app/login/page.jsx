@@ -4,20 +4,26 @@ import { Input, Button, Link } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 export default function Login() {
+  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = Object.fromEntries(new FormData(e.target));
-    console.log(formData);
     const { data, error } = await authClient.signIn.email({
       email: formData.email,
       password: formData.password,
     });
     if (data) {
       toast.success("Successfully logged in!");
-      redirect("/");
+      if (data.user.role === "writer") {
+        router.push("/dashboard/writer");
+      } else if (data.user.role === "admin") {
+        router.push("/dashboard/admin");
+      } else {
+        router.push("/");
+      }
     }
     if (error) {
       toast.error(error.message);
@@ -31,10 +37,13 @@ export default function Login() {
 
     if (data) {
       toast.success("Successfully logged in!");
-      redirect("/");
-    }
-    if (error) {
-      toast.error(error.message);
+      if (data.user.role === "writer") {
+        router.push("/dashboard/writer");
+      } else if (data.user.role === "admin") {
+        router.push("/dashboard/admin");
+      } else {
+        router.push("/");
+      }
     }
   };
 

@@ -4,11 +4,17 @@ import { useState } from "react";
 import { Link, Button } from "@heroui/react";
 import { Bars, Xmark } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
   const { data: session } = authClient.useSession();
   const user = session?.user;
+  const handleSignOut = () => {
+    authClient.signOut();
+    router.push("/");
+  };
 
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white">
@@ -28,7 +34,7 @@ export default function Navbar() {
             <ul className="hidden items-center gap-6 md:flex">
               <li>
                 <Link
-                  href="#"
+                  href="/"
                   className="relative text-base font-semibold text-[#1e1b9b] hover:text-[#1e1b9b] after:absolute after:-bottom-[21px] after:left-0 after:h-[2px] after:w-full after:bg-[#1e1b9b]"
                 >
                   Home
@@ -44,8 +50,8 @@ export default function Navbar() {
               </li>
               <li>
                 <Link
-                  href="#"
-                  className="text-base text-gray-500 hover:text-gray-900"
+                  href={`/dashboard/${user?.role ? user.role : ""}`}
+                  className={`text-base text-gray-500 hover:text-gray-900`}
                 >
                   Dashboard
                 </Link>
@@ -78,7 +84,7 @@ export default function Navbar() {
 
             {user && (
               <Button
-                onClick={() => authClient.signOut()}
+                onClick={handleSignOut}
                 as={Link}
                 href="#"
                 className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white hover:bg-[#161373]"
