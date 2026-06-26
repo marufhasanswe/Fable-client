@@ -11,11 +11,12 @@ export default function EbookDetailsPageButtons({ ebook, sold }) {
   const { data: session } = authClient.useSession();
   const user = session?.user;
   function handlePurchase() {
-    if (!user.id || !user.role) {
+    if (!user?.id || !user?.role) {
       toast.error("Please login to purchase this book");
       router.push("/login");
       return;
     }
+
     /*
 Later:
 
@@ -29,15 +30,20 @@ Later:
 
   return (
     <>
-      <Button
-        isDisabled={user?.id === ebook.writerId}
-        onClick={handlePurchase}
-        className={` h-11 px-8 rounded-lg flex items-center gap-2 text-white ${sold ? "bg-gray-400 cursor-not-allowed" : "bg-primary hover:opacity-90"}`}
-      >
-        <ShoppingCart size={17} />
+      <form action="/api/payment" method="POST">
+        <input type="hidden" name="price" value={ebook.price} />
+        <input type="hidden" name="title" value={ebook.title} />
+        <input type="hidden" name="productId" value={ebook.productId} />
+        <Button
+          isDisabled={user?.id === ebook.writerId}
+          type="submit"
+          className={` h-11 px-8 rounded-lg flex items-center gap-2 text-white ${sold ? "bg-gray-400 cursor-not-allowed" : "bg-primary hover:opacity-90"}`}
+        >
+          <ShoppingCart size={17} />
 
-        {sold ? "Sold" : "Purchase Now"}
-      </Button>
+          {sold ? "Sold" : "Purchase Now"}
+        </Button>
+      </form>
       <Button
         variant="secondary"
         className="rounded-lg border border-blue-500 font-medium bg-white px-6 h-11 flex items-center gap-2 "
