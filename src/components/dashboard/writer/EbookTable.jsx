@@ -1,16 +1,39 @@
 "use client";
 
+import { updateBook } from "@/lib/actions/books";
 import { Table, Button } from "@heroui/react";
 import { BookOpen, Pencil, Trash2 } from "lucide-react";
-
-// const initialEbooks = [
-//   { id: 1, title: "Mastering React", price: 19.99, status: "Published" },
-//   { id: 2, title: "Next.js Complete Guide", price: 24.99, status: "Draft" },
-//   { id: 3, title: "Tailwind CSS Mastery", price: 14.99, status: "Published" },
-//   { id: 4, title: "JavaScript Essentials", price: 12.5, status: "Draft" },
-// ];
+import { useState, useEffect } from "react"; // Added useEffect to sync props
+import UpdateModal from "../UpdateModal";
 
 export default function EbookTable({ books }) {
+  // 1. Initialize local state with the incoming books prop
+  const [localBooks, setLocalBooks] = useState(books);
+
+  // 2. Keep local state in sync if the parent component sends new props
+  useEffect(() => {
+    setLocalBooks(books);
+  }, [books]);
+
+  const handleStatusBtnClick = async (bookId, newStatus) => {
+    // 3. Immediately update the local state for an instant UI change
+    setLocalBooks((prevBooks) =>
+      prevBooks.map((book) =>
+        book._id === bookId ? { ...book, status: newStatus } : book,
+      ),
+    );
+
+    try {
+      // 4. Trigger the server action in the background
+      const res = await updateBook(bookId, { status: newStatus });
+      console.log(res);
+    } catch (error) {
+      console.error("Failed to update status on server:", error);
+      // Optional: Revert state back if server action fails
+      setLocalBooks(books);
+    }
+  };
+
   return (
     <div className="p-4 bg-white rounded-2xl">
       <h3 className="text-xl py-2 font-semibold">Manage Ebooks</h3>
@@ -19,7 +42,6 @@ export default function EbookTable({ books }) {
           <Table.Content>
             {/* Table Headers */}
             <Table.Header>
-              {/* Added isRowHeader for Accessibility */}
               <Table.Column
                 isRowHeader
                 className="bg-gray-50/80 py-4 text-xs font-semibold text-gray-600 pl-6"
@@ -39,7 +61,8 @@ export default function EbookTable({ books }) {
 
             {/* Table Body */}
             <Table.Body>
-              {books.map((book) => (
+              {/* 5. Changed 'books.map' to 'localBooks.map' */}
+              {localBooks.map((book) => (
                 <Table.Row
                   key={book._id}
                   className="border-b border-gray-100 last:border-0 hover:bg-gray-50/50 transition-colors duration-150"
@@ -71,14 +94,14 @@ export default function EbookTable({ books }) {
                     <span
                       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium border
                         ${
-                          book.status === "Published"
+                          book.status === "published"
                             ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                             : "bg-amber-50 text-amber-700 border-amber-200"
                         }`}
                     >
                       <span
                         className={`h-1.5 w-1.5 rounded-full ${
-                          book.status === "Published"
+                          book.status === "published"
                             ? "bg-emerald-500"
                             : "bg-amber-500"
                         }`}
@@ -92,32 +115,34 @@ export default function EbookTable({ books }) {
                     <div className="flex justify-end items-center gap-1.5">
                       {/* Publish / Unpublish */}
                       <Button
-                        size="sm"
-                        variant="flat"
-                        color={
-                          book.status === "published" ? "warning" : "success"
+                        size="xs"
+                        variant="secondary"
+                        onClick={() =>
+                          handleStatusBtnClick(
+                            book._id,
+                            book.status === "published"
+                              ? "unpublished"
+                              : "published",
+                          )
                         }
-                        onPress={() => toggleStatus(book.id)}
-                        className="font-medium text-xs h-8 rounded-lg px-3"
+                        className={`font-medium text-xs h-8 rounded-lg px-3 w-20 ${
+                          book.status === "published"
+                            ? " bg-amber-500 text-white"
+                            : "bg-emerald-500 text-white"
+                        }`}
                       >
                         {book.status === "published" ? "Unpublish" : "Publish"}
                       </Button>
 
                       {/* Edit Button */}
-                      <Button
-                        isIconOnly
-                        variant="light"
-                        className="text-gray-500 hover:text-gray-800 h-8 w-8 min-w-8 rounded-lg"
-                      >
-                        <Pencil size={14} />
-                      </Button>
+
+                      <UpdateModal book={book} />
 
                       {/* Delete Button */}
                       <Button
                         isIconOnly
                         variant="light"
-                        color="danger"
-                        className="h-8 w-8 min-w-8 rounded-lg"
+                        className="h-8 text-red-500 w-8 min-w-8 rounded-lg"
                       >
                         <Trash2 size={14} />
                       </Button>

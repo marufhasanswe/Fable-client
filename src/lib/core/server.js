@@ -15,6 +15,18 @@ export const serverMutation = async (path, method, data) => {
   return res.json();
 };
 
+export const deleteMutation = async (path, id) => {
+  const token = await getTokenServer();
+  const res = await fetch(`${baseUrl}${path}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  });
+  return res.json();
+};
+
 export const serverFetch = async (path) => {
   const res = await fetch(`${baseUrl}${path}`, {
     cache: "no-store",

@@ -12,3 +12,10 @@ export const addBook = async (bookData) => {
   };
   return await serverMutation("/api/books", "POST", data);
 };
+
+export const updateBook = async (bookId, bookData) => {
+  const data = {
+    ...bookData,
+  };
+  return await serverMutation(`/api/books/${bookId}`, "PATCH", data);
+};
