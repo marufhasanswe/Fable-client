@@ -88,7 +88,7 @@ export default function EbookGenre() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-zinc-50 flex items-center gap-3">
-            Browse Ebook Genres
+            Ebook Genres
             <ArrowRight className="w-6 h-6 text-slate-400 hidden sm:block" />
           </h2>
           <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">

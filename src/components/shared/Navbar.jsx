@@ -42,7 +42,7 @@ export default function Navbar() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/browse-ebooks"
                   className="text-base text-gray-500 hover:text-gray-900"
                 >
                   Browse Ebooks
@@ -71,11 +71,7 @@ export default function Navbar() {
                   Login
                 </Link>
                 <Link href="/register">
-                  <Button
-                    as={Link}
-                    href="#"
-                    className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white hover:bg-[#161373]"
-                  >
+                  <Button className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white hover:bg-[#161373]">
                     Register
                   </Button>
                 </Link>
