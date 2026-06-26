@@ -1,6 +1,7 @@
 "use server";
 
-import { serverMutation } from "../core/server";
+import { revalidatePath } from "next/cache";
+import { deleteMutation, serverMutation } from "../core/server";
 import { getUser } from "../core/session";
 
 export const addBook = async (bookData) => {
@@ -17,5 +18,15 @@ export const updateBook = async (bookId, bookData) => {
   const data = {
     ...bookData,
   };
-  return await serverMutation(`/api/books/${bookId}`, "PATCH", data);
+  const res = await serverMutation(`/api/books/${bookId}`, "PATCH", data);
+  revalidatePath("/dashboard/writer");
+  revalidatePath("/dashboard/writer/books");
+  return res;
+};
+
+export const deleteBook = async (bookId) => {
+  const res = await deleteMutation(`/api/books/${bookId}`);
+  revalidatePath("/dashboard/writer");
+  revalidatePath("/dashboard/writer/books");
+  return res;
 };

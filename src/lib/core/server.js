@@ -15,9 +15,9 @@ export const serverMutation = async (path, method, data) => {
   return res.json();
 };
 
-export const deleteMutation = async (path, id) => {
+export const deleteMutation = async (path) => {
   const token = await getTokenServer();
-  const res = await fetch(`${baseUrl}${path}/${id}`, {
+  const res = await fetch(`${baseUrl}${path}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
