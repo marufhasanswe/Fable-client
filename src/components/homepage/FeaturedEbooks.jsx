@@ -8,7 +8,7 @@ export default function FeaturedEbooks({ initialBooks = [] }) {
   // If no DB books are passed yet, fallback to mock data matching your image
   const displayBooks =
     initialBooks.length > 0
-      ? initialBooks.slice(0, 6)
+      ? initialBooks.slice(0, 8)
       : [
           {
             _id: "1",

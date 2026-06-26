@@ -1,8 +1,8 @@
 import { Button, Card } from "@heroui/react";
 
-import { Star, Bookmark, CalendarDays, FileText } from "lucide-react";
-import PurchaseButton from "./PurchaseButton";
+import { Star, CalendarDays } from "lucide-react";
 import Image from "next/image";
+import EbookDetailsPageButtons from "./EbookDetailsPageButtons";
 
 export default function EbookDetails({ ebook }) {
   return (
@@ -87,15 +87,10 @@ export default function EbookDetails({ ebook }) {
         </Card.Content>
 
         <Card.Footer className=" flex gap-3 ">
-          <PurchaseButton ebookId={ebook._id} sold={ebook.status === "Sold"} />
-
-          <Button
-            variant="secondary"
-            className="rounded-lg border border-blue-500 font-medium bg-white px-6 h-11 flex items-center gap-2 "
-          >
-            <Bookmark size={17} />
-            Bookmark
-          </Button>
+          <EbookDetailsPageButtons
+            ebook={ebook}
+            sold={ebook.status === "Sold"}
+          />
         </Card.Footer>
       </Card>
     </div>
