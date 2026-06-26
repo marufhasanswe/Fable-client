@@ -57,9 +57,3 @@ body {
   background-color: var(--background-alt);
 }
 
-/* Custom smooth tracking for the heavy, punchy typography headings */
-h1, h2, h3 {
-  color: var(--brand-primary);
-  font-weight: 800; /* Extra bold/black styling matching Fable layout titles */
-  letter-spacing: -0.025em;
-}

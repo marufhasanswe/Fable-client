@@ -2,6 +2,7 @@
 
 import { Link, Input, Button } from "@heroui/react";
 import { Globe, At, NodesRight, PaperPlane } from "@gravity-ui/icons";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
   const handleNewsletterSubmit = (e) => {
