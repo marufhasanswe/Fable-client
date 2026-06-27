@@ -3,8 +3,12 @@ import { Button, Card } from "@heroui/react";
 import { Star, CalendarDays } from "lucide-react";
 import Image from "next/image";
 import EbookDetailsPageButtons from "./EbookDetailsPageButtons";
+import { checkPurchase } from "@/lib/api/purchase";
+import EbookContentModal from "./EbookContentModal";
 
-export default function EbookDetails({ ebook }) {
+export default async function EbookDetails({ ebook }) {
+  const purchasedData = await checkPurchase(ebook._id);
+  const isPurchased = purchasedData?.purchased;
   return (
     <div className=" grid lg:grid-cols-2 gap-2 items-star ">
       {/* Cover */}
@@ -14,7 +18,7 @@ export default function EbookDetails({ ebook }) {
           height={500}
           src={ebook.coverImage}
           alt={ebook.title}
-          className=" w-full max-w-md aspect-[3/4] object-cover rounded-xl shadow-xl"
+          className=" w-full max-w-md max-h-screen aspect-[3/4] object-cover rounded-xl shadow-xl"
         />
       </div>
       {/* Information */}
@@ -60,9 +64,10 @@ export default function EbookDetails({ ebook }) {
                 Synopsis
               </h3>
 
-              <p className=" line-clamp-4 text-sm leading-7 text-gray-600">
+              <p className={` line-clamp-3 text-sm leading-7 text-gray-600`}>
                 {ebook.description}
               </p>
+              {isPurchased && <EbookContentModal ebook={ebook} />}
             </div>
           </div>
 
@@ -90,6 +95,7 @@ export default function EbookDetails({ ebook }) {
           <EbookDetailsPageButtons
             ebook={ebook}
             sold={ebook.status === "Sold"}
+            isPurchased={isPurchased}
           />
         </Card.Footer>
       </Card>

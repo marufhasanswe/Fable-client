@@ -9,6 +9,7 @@ export default async function Success({ searchParams }) {
 
   const {
     status,
+    metadata,
     customer_details: { email: customerEmail },
   } = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ["line_items", "payment_intent"],
@@ -19,6 +20,23 @@ export default async function Success({ searchParams }) {
   }
 
   if (status === "complete") {
+    const purchaseData = {
+      ...metadata,
+      session_id,
+    };
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/purchases`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(purchaseData),
+      },
+    );
+    if (res.ok) {
+      redirect("/browse-ebooks");
+    }
     return (
       <section id="success">
         <p>

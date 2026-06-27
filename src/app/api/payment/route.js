@@ -12,11 +12,16 @@ export async function POST(request) {
       headers: await headers(),
     });
 
+    if (!userSession?.user) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
     const user = userSession?.user;
     const formData = await request.formData();
-    const price = formData.get("price");
-    const title = formData.get("title");
-    const productId = formData.get("productId");
+    const ebookId = formData.get("ebookId");
+    const ebookTitle = formData.get("ebookTitle");
+    const writerId = formData.get("writerId");
+    const amount = formData.get("amount");
 
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
@@ -25,20 +30,21 @@ export async function POST(request) {
         {
           price_data: {
             currency: "usd",
-            unit_amount: Number(price) * 100,
+            unit_amount: Number(amount) * 100,
             product_data: {
-              name: title,
+              name: ebookTitle,
             },
           },
           quantity: 1,
         },
       ],
       metadata: {
-        price: Number(price),
-        userId: user.id,
-        userEmail: user.email,
-        title,
-        productId,
+        ebookId,
+        ebookTitle,
+        buyerId: user?.id,
+        buyerEmail: user?.email,
+        writerId,
+        amount,
       },
       mode: "payment",
       success_url: `${origin}/browse-ebooks/payment-success?session_id={CHECKOUT_SESSION_ID}`,
