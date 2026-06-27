@@ -1,10 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Table } from "@heroui/react";
-import { ArrowDownToLine } from "lucide-react"; // Gravity UI or Lucide icon
+import { ArrowDownToLine } from "lucide-react";
 
-export default function PurchaseHistoryTable({ purchasesEbooks }) {
+export default function PurchaseHistoryTable({ purchasesEbooks = [] }) {
+  // State to track whether the user clicked "View All"
+  const [showAll, setShowAll] = useState(false);
+
+  // Determine which rows to display based on state
+  const displayedPurchases = showAll
+    ? purchasesEbooks
+    : purchasesEbooks.slice(0, 5);
+
   return (
     <div className="w-full max-w-7xl mx-auto p-4 md:p-6 bg-[#f8fafc] flex items-center justify-center">
       <div className="w-full bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
@@ -30,22 +38,17 @@ export default function PurchaseHistoryTable({ purchasesEbooks }) {
             <Table.ScrollContainer>
               <Table.Content aria-label="Purchase history table">
                 <Table.Header className="bg-[#f4f7fc]">
+                  {/* CRITICAL FIX: Exactly one column must have isRowHeader for accessibility */}
                   <Table.Column
                     isRowHeader
                     className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left"
                   >
                     Book
                   </Table.Column>
-                  <Table.Column
-                    isRowHeader
-                    className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left"
-                  >
+                  <Table.Column className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left">
                     Writer
                   </Table.Column>
-                  <Table.Column
-                    isRowHeader
-                    className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left"
-                  >
+                  <Table.Column className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left">
                     Price
                   </Table.Column>
                   <Table.Column className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left">
@@ -57,7 +60,7 @@ export default function PurchaseHistoryTable({ purchasesEbooks }) {
                 </Table.Header>
 
                 <Table.Body>
-                  {purchasesEbooks.map((row) => (
+                  {displayedPurchases.map((row) => (
                     <Table.Row
                       key={row._id}
                       className="hover:bg-slate-50/80 transition-colors border-b border-slate-100 last:border-b-0"
@@ -95,13 +98,18 @@ export default function PurchaseHistoryTable({ purchasesEbooks }) {
             </Table.ScrollContainer>
 
             {/* Footer Section */}
-            <Table.Footer>
-              <div className="flex justify-center items-center py-4 border-t border-slate-100">
-                <button className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors focus:outline-none focus:underline">
-                  View All Transactions
-                </button>
-              </div>
-            </Table.Footer>
+            {purchasesEbooks.length > 5 && (
+              <Table.Footer>
+                <div className="flex justify-center items-center py-4 border-t border-slate-100">
+                  <button
+                    onClick={() => setShowAll(!showAll)}
+                    className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors focus:outline-none focus:underline"
+                  >
+                    {showAll ? "Show Less" : "View All Transactions"}
+                  </button>
+                </div>
+              </Table.Footer>
+            )}
           </Table>
         </div>
       </div>
