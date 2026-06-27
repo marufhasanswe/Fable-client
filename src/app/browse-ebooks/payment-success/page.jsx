@@ -1,3 +1,4 @@
+import { bookPurchased } from "@/lib/actions/purchase";
 import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
 
@@ -24,16 +25,8 @@ export default async function Success({ searchParams }) {
       ...metadata,
       session_id,
     };
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/purchases`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(purchaseData),
-      },
-    );
+
+    const res = await bookPurchased(purchaseData);
     if (res.ok) {
       redirect("/browse-ebooks");
     }

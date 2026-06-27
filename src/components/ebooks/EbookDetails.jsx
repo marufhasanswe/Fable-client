@@ -8,6 +8,7 @@ import EbookContentModal from "./EbookContentModal";
 
 export default async function EbookDetails({ ebook }) {
   const purchasedData = await checkPurchase(ebook._id);
+  console.log(purchasedData);
   const isPurchased = purchasedData?.purchased;
   return (
     <div className=" grid lg:grid-cols-2 gap-2 items-star ">

@@ -1,17 +1,31 @@
 "use client";
+import { addBookmark } from "@/lib/actions/bookmarks";
 import { authClient } from "@/lib/auth-client";
 import { Bookmark } from "@gravity-ui/icons";
 import { Button } from "@heroui/react";
 import { ShoppingCart } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function EbookDetailsPageButtons({
   ebook,
   sold,
   isPurchased = null,
 }) {
+  const router = useRouter();
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
+  const handleBookmark = async () => {
+    if (!user?.id) {
+      toast.error("Please login to bookmark this ebook");
+      return router.push("/login");
+    }
+    const res = await addBookmark(ebook._id);
+    if (res) {
+      toast.success("Successfully bookmarked!");
+    }
+  };
   return (
     <>
       <form action="/api/payment" method="POST">
@@ -30,7 +44,8 @@ export default function EbookDetailsPageButtons({
         </Button>
       </form>
       <Button
-        isDisabled={!user?.id}
+        // isDisabled={!user?.id}
+        onClick={handleBookmark}
         variant="secondary"
         className="rounded-lg border border-blue-500 font-medium bg-white px-6 h-11 flex items-center gap-2 "
       >
