@@ -32,6 +32,7 @@ export default function EbookDetailsPageButtons({
         <input type="hidden" name="ebookId" value={ebook._id} />
         <input type="hidden" name="ebookTitle" value={ebook.title} />
         <input type="hidden" name="writerId" value={ebook.writerId} />
+        <input type="hidden" name="writerName" value={ebook.writerName} />
         <input type="hidden" name="amount" value={ebook.price} />
         <Button
           isDisabled={user?.id === ebook.writerId || isPurchased}

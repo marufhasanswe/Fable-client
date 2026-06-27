@@ -21,6 +21,7 @@ export async function POST(request) {
     const ebookId = formData.get("ebookId");
     const ebookTitle = formData.get("ebookTitle");
     const writerId = formData.get("writerId");
+    const writerName = formData.get("writerName");
     const amount = formData.get("amount");
 
     // Create Checkout Sessions from body params.
@@ -44,6 +45,7 @@ export async function POST(request) {
         buyerId: user?.id,
         buyerEmail: user?.email,
         writerId,
+        writerName,
         amount,
       },
       mode: "payment",

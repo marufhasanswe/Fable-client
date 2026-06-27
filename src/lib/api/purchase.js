@@ -1,3 +1,4 @@
+import { serverFetch } from "../core/server";
 import { getTokenServer } from "../core/session";
 
 export const checkPurchase = async (ebookId) => {
@@ -44,4 +45,9 @@ export const checkPurchase = async (ebookId) => {
       message: error.message,
     };
   }
+};
+
+export const getPurchasedEbooks = async (userId) => {
+  const res = await serverFetch(`/api/books/purchases/${userId}`);
+  return res;
 };

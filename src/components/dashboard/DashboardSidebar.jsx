@@ -3,13 +3,13 @@ import { Button, Drawer, Avatar } from "@heroui/react";
 import {
   Bars,
   House,
-  Magnifier,
   Person,
   Gear,
   Envelope,
   Bell,
   Book,
   Bookmark,
+  BookOpen,
 } from "@gravity-ui/icons";
 import {
   BookAIcon,
@@ -38,19 +38,19 @@ export async function DashboardSidebar() {
   // 2. Navigation mappings with optimized mixed icon sets
   const dashboardNavItems = {
     user: [
-      { icon: ChartArea, label: "Overview", link: "/dashboard/seller" },
-      {
-        icon: Magnifier,
-        label: "Products",
-        link: "/dashboard/seller/products",
-      },
+      { icon: ChartArea, label: "Overview", link: "/dashboard/user" },
       {
         icon: House,
-        label: "Transactions",
-        link: "/dashboard/seller/transactions",
+        label: "Home",
+        link: "/",
       },
+      {
+        icon: BookOpen,
+        label: "Purchased Ebooks",
+        link: "/dashboard/user/purchased-ebooks",
+      },
+      { icon: Bookmark, label: "Bookmarks", link: "/dashboard/user/bookmarks" },
       { icon: Person, label: "Profile", link: "/dashboard/seller/profile" },
-      { icon: Gear, label: "Settings", link: "/dashboard/seller/settings" },
     ],
     writer: [
       { icon: ChartArea, label: "Overview", link: "/dashboard/writer" },
@@ -147,8 +147,8 @@ export async function DashboardSidebar() {
       {user && (
         <div className="border-t border-[#d1d5db] pt-4 flex items-center gap-3 px-1.5">
           <Avatar
-            src={user.image || undefined}
-            name={user.name || "User"}
+            src={user?.image || undefined}
+            name={user?.name || "User"}
             size="sm"
             className="ring-2 ring-white"
           />
