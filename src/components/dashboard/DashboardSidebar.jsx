@@ -87,7 +87,7 @@ export async function DashboardSidebar() {
       {
         icon: HistoryIcon,
         label: "View All Transaction",
-        link: "/dashboard/admin/sales",
+        link: "/dashboard/admin/transactions",
       },
     ],
   };
