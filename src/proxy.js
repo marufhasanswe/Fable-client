@@ -34,6 +34,7 @@ export async function proxy(request) {
 
 export const config = {
   matcher: [
+    "/dashboard/:path*",
     "/dashboard/seller/:path*",
     "/dashboard/admin/:path*",
     "/dashboard/user/:path*",

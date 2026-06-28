@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Table } from "@heroui/react";
 import { ArrowDownToLine } from "lucide-react";
 
-export default function PurchaseHistoryTable({ purchasesEbooks = [] }) {
+export default function SalesHistoryTable({ purchasesEbooks = [] }) {
   console.log(purchasesEbooks);
   // State to track whether the user clicked "View All"
   const [showAll, setShowAll] = useState(false);
@@ -21,10 +21,10 @@ export default function PurchaseHistoryTable({ purchasesEbooks = [] }) {
         <div className="p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-50">
           <div>
             <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
-              Purchase History
+              Sales History
             </h2>
             <p className="text-sm text-slate-500 mt-1">
-              Review your recent literary investments.
+              Track you earnings and reader acquisitions.
             </p>
           </div>
           <button className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors group self-start sm:self-auto">
@@ -44,19 +44,16 @@ export default function PurchaseHistoryTable({ purchasesEbooks = [] }) {
                     isRowHeader
                     className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left"
                   >
-                    Book
+                    Book Title
                   </Table.Column>
                   <Table.Column className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left">
-                    Writer
+                    Buyer Name
                   </Table.Column>
                   <Table.Column className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left">
-                    Price
+                    amount
                   </Table.Column>
                   <Table.Column className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left">
-                    Date
-                  </Table.Column>
-                  <Table.Column className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 text-left">
-                    Status
+                    Purchase Date
                   </Table.Column>
                 </Table.Header>
 
@@ -73,7 +70,7 @@ export default function PurchaseHistoryTable({ purchasesEbooks = [] }) {
 
                       {/* Writer */}
                       <Table.Cell className="px-6 py-4 text-sm text-slate-600 whitespace-nowrap">
-                        {row.writerName}
+                        {row.buyerName}
                       </Table.Cell>
 
                       {/* Price */}
@@ -87,11 +84,6 @@ export default function PurchaseHistoryTable({ purchasesEbooks = [] }) {
                       </Table.Cell>
 
                       {/* Status pill */}
-                      <Table.Cell className="px-6 py-4 whitespace-nowrap">
-                        <span className="inline-flex items-center px-2.5 py-1 text-xs font-medium tracking-wide rounded-full bg-emerald-100 text-emerald-700 uppercase">
-                          {row.status}
-                        </span>
-                      </Table.Cell>
                     </Table.Row>
                   ))}
                 </Table.Body>
@@ -106,7 +98,7 @@ export default function PurchaseHistoryTable({ purchasesEbooks = [] }) {
                     onClick={() => setShowAll(!showAll)}
                     className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors focus:outline-none focus:underline"
                   >
-                    {showAll ? "Show Less" : "View All Transactions"}
+                    {showAll ? "Show Less" : "View All History"}
                   </button>
                 </div>
               </Table.Footer>
