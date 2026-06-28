@@ -3,7 +3,7 @@ import { getBookmarks } from "@/lib/api/bookmarks";
 import { getUser } from "@/lib/core/session";
 import React from "react";
 
-const UserBookmarksPage = async () => {
+const WriterBookmarksPage = async () => {
   const user = await getUser();
   const userId = user?.id;
   const bookmarkedBooks = await getBookmarks(userId);
@@ -14,4 +14,4 @@ const UserBookmarksPage = async () => {
   );
 };
 
-export default UserBookmarksPage;
+export default WriterBookmarksPage;
