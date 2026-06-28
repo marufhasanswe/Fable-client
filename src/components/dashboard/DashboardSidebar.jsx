@@ -50,7 +50,7 @@ export async function DashboardSidebar() {
         link: "/dashboard/user/purchased-ebooks",
       },
       { icon: Bookmark, label: "Bookmarks", link: "/dashboard/user/bookmarks" },
-      { icon: Person, label: "Profile", link: "/dashboard/seller/profile" },
+      { icon: Person, label: "Profile", link: "/dashboard/user/profile" },
     ],
     writer: [
       { icon: ChartArea, label: "Overview", link: "/dashboard/writer" },

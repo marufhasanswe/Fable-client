@@ -1,25 +1,17 @@
-import { authClient } from "../auth-client";
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { deleteMutation, serverMutation } from "../core/server";
 
 export const addBookmark = async (ebookId) => {
-  const { data, error } = await authClient.token();
-  if (error) {
-    console.log(error);
-    return false;
-  }
-  const token = data?.token;
-  console.log(token);
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/bookmarks`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        ebookId,
-      }),
-    },
-  );
-  return res.ok;
+  const res = await serverMutation(`/api/books/bookmarks`, "POST", {
+    ebookId,
+  });
+  return res;
+};
+
+export const removeBookmark = async (ebookId) => {
+  const res = await deleteMutation(`/api/books/bookmarks/${ebookId}`);
+  revalidatePath("/dashboard/user/bookmarks");
+  return res;
 };

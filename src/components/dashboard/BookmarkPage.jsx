@@ -3,8 +3,18 @@
 import Link from "next/link";
 import { Bookmark, BookOpen, Trash2, ArrowUpRight } from "lucide-react";
 import { Card } from "@heroui/react";
+import Image from "next/image";
+import { removeBookmark } from "@/lib/actions/bookmarks";
+import { toast } from "react-toastify";
 
 export default function BookmarkPage({ bookmarkedBooks = [] }) {
+  const handleRemoveBookmark = async (ebookId) => {
+    const res = await removeBookmark(ebookId);
+    console.log(res);
+    if (res.deletedCount) {
+      toast.success("Successfully removed bookmark!");
+    }
+  };
   return (
     <section className="max-w-7xl mx-auto px-4 py-10">
       {/* Header */}
@@ -37,7 +47,7 @@ export default function BookmarkPage({ bookmarkedBooks = [] }) {
           </p>
         </div>
       ) : (
-        <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 ">
+        <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-5 ">
           {bookmarkedBooks.map((book) => (
             <Card
               key={book._id}
@@ -45,16 +55,19 @@ export default function BookmarkPage({ bookmarkedBooks = [] }) {
             >
               {/* Image */}
 
-              <div className="relative h-52 bg-slate-100 overflow-hidden">
-                <img
+              <div className="relative rounded-lg h-52 bg-slate-100 overflow-hidden">
+                <Image
+                  width={400}
+                  height={400}
+                  alt={book.title}
                   src={book.coverImage}
-                  alt={book.ebookTitle}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
 
                 <button
                   type="button"
-                  className=" absolute top-3 right-3 p-2 rounded-full bg-white/90 text-red-500 hover:bg-red-50 "
+                  onClick={() => handleRemoveBookmark(book._id)}
+                  className="cursor-pointer absolute top-3 right-3 p-2 rounded-full bg-white/90 text-red-500 hover:bg-red-50 "
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
