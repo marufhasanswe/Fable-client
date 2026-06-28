@@ -17,9 +17,9 @@ export default function Login() {
     });
     if (data) {
       toast.success("Successfully logged in!");
-      if (data.user.role === "writer") {
+      if (data?.user?.role === "writer") {
         router.push("/dashboard/writer");
-      } else if (data.user.role === "admin") {
+      } else if (data?.user?.role === "admin") {
         router.push("/dashboard/admin");
       } else {
         router.push("/");

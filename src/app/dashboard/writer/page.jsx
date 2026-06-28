@@ -12,7 +12,6 @@ const WriterDashboardPage = async () => {
   const user = await getUser();
   const books = await getBooks(user?.id);
 
-  console.log(books);
   const stats = [
     {
       title: "Total Books",

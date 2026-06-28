@@ -25,7 +25,7 @@ export default function StatCard({
       </Card.Header>
 
       <Card.Content className="px-4">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
           {value}
         </h2>
       </Card.Content>

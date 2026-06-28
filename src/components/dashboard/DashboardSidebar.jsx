@@ -77,16 +77,18 @@ export async function DashboardSidebar() {
       { icon: Person, label: "Profile", link: "/dashboard/writer/profile" },
     ],
     admin: [
-      { icon: House, label: "Home", link: "/dashboard/admin" },
-      { icon: User2, label: "User Management", link: "/dashboard/admin/users" },
+      { icon: ChartArea, label: "Overview", link: "/dashboard/admin" },
+      { icon: User2, label: "Manage Users", link: "/dashboard/admin/users" },
       {
-        icon: Bell,
-        label: "Notifications",
-        link: "/dashboard/admin/notifications",
+        icon: BookAIcon,
+        label: "Manage All Ebooks",
+        link: "/dashboard/admin/books",
       },
-      { icon: Envelope, label: "Messages", link: "/dashboard/admin/messages" },
-      { icon: Person, label: "Profile", link: "/dashboard/admin/profile" },
-      { icon: Gear, label: "Settings", link: "/dashboard/admin/settings" },
+      {
+        icon: HistoryIcon,
+        label: "View All Transaction",
+        link: "/dashboard/admin/sales",
+      },
     ],
   };
 
