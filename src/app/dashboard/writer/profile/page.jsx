@@ -1,23 +1,19 @@
 import ProfilePage from "@/components/dashboard/ProfilePage";
 import { getBookmarks } from "@/lib/api/bookmarks";
-import { getPurchasedEbooks } from "@/lib/api/purchase";
+import { getBooks } from "@/lib/api/books";
 import { getUser } from "@/lib/core/session";
 import React from "react";
 
-const userProfilePage = async () => {
+const WriterProfilePage = async () => {
   const user = await getUser();
   const userId = user?.id;
   const bookmarkedBooks = await getBookmarks(userId);
-  const purchasedEbooks = await getPurchasedEbooks(userId);
+  const books = await getBooks(userId);
   return (
     <div>
-      <ProfilePage
-        user={user}
-        bookmarks={bookmarkedBooks}
-        books={purchasedEbooks}
-      />
+      <ProfilePage user={user} bookmarks={bookmarkedBooks} books={books} />
     </div>
   );
 };
 
-export default userProfilePage;
+export default WriterProfilePage;

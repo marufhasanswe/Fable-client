@@ -47,7 +47,7 @@ export async function DashboardSidebar() {
       {
         icon: BookOpen,
         label: "Purchased Ebooks",
-        link: "/dashboard/user/purchased-ebooks",
+        link: "/dashboard/user/books",
       },
       { icon: Bookmark, label: "Bookmarks", link: "/dashboard/user/bookmarks" },
       { icon: Person, label: "Profile", link: "/dashboard/user/profile" },
