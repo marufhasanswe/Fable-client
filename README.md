@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Fable
 
-## Getting Started
+Fable is an Ebook Sharing Platform where readers can discover, purchase, and read ebooks while writers can share and manage their own creations. The platform provides a complete digital reading experience with role-based dashboards, secure authentication, payment integration, and ebook management features.
 
-First, run the development server:
+## Live Site
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+https://fable-client-inky.vercel.app/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Purpose
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The purpose of Fable is to create a modern ebook marketplace that connects readers and writers in one platform. Users can explore different ebooks, purchase their favorite books, and manage their reading activities.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Writers can upload and manage ebooks after verification, track sales, and grow their audience. Admins can monitor users, ebooks, transactions, and overall platform analytics.
 
-## Learn More
+## Key Features
 
-To learn more about Next.js, take a look at the following resources:
+### Authentication
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+• Email and password authentication  
+• Google login integration with Better Auth  
+• JWT based authentication  
+• Role based access control  
+• User, Writer, and Admin roles
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### User Features
 
-## Deploy on Vercel
+• Browse all available ebooks  
+• Search ebooks by title or writer  
+• Filter ebooks by genre, price, and availability  
+• Sort ebooks by newest and price  
+• View ebook details  
+• Purchase ebooks using Stripe payment  
+• View purchased ebooks  
+• Bookmark favorite ebooks  
+• Manage profile
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Writer Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+• Writer dashboard  
+• Add new ebooks  
+• Upload ebook cover images using imgBB  
+• Edit and delete ebooks  
+• Publish or unpublish ebooks  
+• View sales history
+
+### Admin Features
+
+• Admin dashboard  
+• Manage users and roles  
+• Manage all ebooks  
+• Manage transactions  
+• View platform analytics  
+• Sales and genre charts
+
+### UI Features
+
+• Responsive design for desktop, tablet, and mobile  
+• Modern dashboard layouts  
+• Hero banner section  
+• Ebook card animations  
+• Loading spinner and skeleton loaders  
+• Custom error handling page  
+• Toast notifications
+
+### Payment System
+
+• Stripe Checkout integration  
+• Secure ebook purchase flow  
+• Purchase history tracking  
+• Transaction management
+
+## Technology Stack
+
+### Frontend
+
+• Next.js  
+• React.js  
+• JavaScript  
+• Tailwind CSS  
+• HeroUI  
+• Framer Motion  
+• Recharts
+
+### Backend
+
+• Node.js  
+• Express.js  
+• MongoDB  
+• JWT Authentication
+
+### Services
+
+• Stripe Payment Gateway  
+• imgBB Image Hosting  
+• Better Auth
+
+## NPM Packages Used
+
+### Frontend Packages
+
+• Next.js  
+• React  
+• React DOM  
+• HeroUI  
+• Better Auth  
+• MongoDB  
+• Framer Motion  
+• Lucide React  
+• React Icons  
+• React Toastify  
+• Recharts  
+• Stripe  
+• Stripe JS
+
+### Development Packages
+
+• Tailwind CSS  
+• Tailwind CSS PostCSS  
+• ESLint  
+• Next.js ESLint Config  
+• Gravity UI Icons  
+• React Compiler Plugin
