@@ -4,9 +4,9 @@ import { Button } from "@heroui/react";
 import Link from "next/link";
 import { BookOpen, ShoppingCart, Wallet, TrendingUp, Zap } from "lucide-react";
 import StatCard from "@/components/dashboard/StatCard";
-import EbookTable from "@/components/dashboard/writer/EbookTable";
 import { getUser } from "@/lib/core/session";
 import { getBooks } from "@/lib/api/books";
+import EbookManageTable from "@/components/dashboard/EbookManageTable";
 
 const WriterDashboardPage = async () => {
   const user = await getUser();
@@ -69,7 +69,7 @@ const WriterDashboardPage = async () => {
           ))}
         </div>
       </section>
-      <EbookTable books={books} />
+      <EbookManageTable books={books} />
     </div>
   );
 };

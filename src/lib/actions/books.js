@@ -21,6 +21,7 @@ export const updateBook = async (bookId, bookData) => {
   const res = await serverMutation(`/api/books/${bookId}`, "PATCH", data);
   revalidatePath("/dashboard/writer");
   revalidatePath("/dashboard/writer/books");
+  revalidatePath("/dashboard/admin/manage-books");
   return res;
 };
 

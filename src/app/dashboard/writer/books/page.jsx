@@ -1,4 +1,4 @@
-import EbookTable from "@/components/dashboard/writer/EbookTable";
+import EbookManageTable from "@/components/dashboard/EbookManageTable";
 import { getBooks } from "@/lib/api/books";
 import { getUser } from "@/lib/core/session";
 import React from "react";
@@ -8,7 +8,7 @@ const ManageBooksPage = async () => {
   const books = await getBooks(user?.id);
   return (
     <div>
-      <EbookTable books={books} />
+      <EbookManageTable books={books} />
     </div>
   );
 };

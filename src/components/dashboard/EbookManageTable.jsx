@@ -4,10 +4,11 @@ import { deleteBook, updateBook } from "@/lib/actions/books";
 import { Table, Button } from "@heroui/react";
 import { BookOpen, Pencil, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react"; // Added useEffect to sync props
-import UpdateModal from "../UpdateModal";
-import { toast } from "react-toastify";
 
-export default function EbookTable({ books }) {
+import { toast } from "react-toastify";
+import UpdateModal from "./UpdateModal";
+
+export default function EbookManageTable({ books }) {
   // 1. Initialize local state with the incoming books prop
   const [localBooks, setLocalBooks] = useState(books);
 
@@ -27,7 +28,6 @@ export default function EbookTable({ books }) {
     try {
       // 4. Trigger the server action in the background
       const res = await updateBook(bookId, { status: newStatus });
-      console.log(res);
     } catch (error) {
       console.error("Failed to update status on server:", error);
       // Optional: Revert state back if server action fails

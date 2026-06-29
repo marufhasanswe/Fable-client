@@ -1,16 +1,6 @@
 import { auth } from "@/lib/auth";
 import { Button, Drawer, Avatar } from "@heroui/react";
-import {
-  Bars,
-  House,
-  Person,
-  Gear,
-  Envelope,
-  Bell,
-  Book,
-  Bookmark,
-  BookOpen,
-} from "@gravity-ui/icons";
+import { Bars, House, Person, Bookmark, BookOpen } from "@gravity-ui/icons";
 import {
   BookAIcon,
   ChartArea,
@@ -78,16 +68,25 @@ export async function DashboardSidebar() {
     ],
     admin: [
       { icon: ChartArea, label: "Overview", link: "/dashboard/admin" },
-      { icon: User2, label: "Manage Users", link: "/dashboard/admin/users" },
+      {
+        icon: User2,
+        label: "Manage Users",
+        link: "/dashboard/admin/manage-users",
+      },
       {
         icon: BookAIcon,
         label: "Manage All Ebooks",
-        link: "/dashboard/admin/books",
+        link: "/dashboard/admin/manage-books",
       },
       {
         icon: HistoryIcon,
         label: "View All Transaction",
         link: "/dashboard/admin/transactions",
+      },
+      {
+        icon: House,
+        label: "Home",
+        link: "/",
       },
     ],
   };
