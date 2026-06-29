@@ -2,28 +2,33 @@
 
 import { Link, Input, Button } from "@heroui/react";
 import { Globe, At, NodesRight, PaperPlane } from "@gravity-ui/icons";
-import { usePathname } from "next/navigation";
 
 export default function Footer() {
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
-    // Frontend-only placeholder logic
     console.log("Newsletter subscription captured (Frontend only)");
   };
 
   return (
-    <footer className="w-full bg-[#dbeafe] text-gray-600 px-6 py-12 md:px-12 lg:px-24">
-      <div className="mx-auto max-w-7xl">
-        {/* Top Section: Brand, Links, and Newsletter Grid */}
+    <footer className="relative overflow-hidden px-6 py-14 md:px-12 lg:px-24">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#dbeafe] via-white to-[#ede9fe]" />
+
+      {/* Blur Shapes */}
+      <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-blue-300/30 blur-3xl" />
+      <div className="absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-purple-300/30 blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl rounded-3xl border border-white/40 bg-white/40 p-8 shadow-xl backdrop-blur-xl md:p-12">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
-          {/* Column 1: Brand Info */}
+          {/* Brand */}
           <div className="flex flex-col gap-4 lg:col-span-2">
             <Link
               href="/"
-              className="text-2xl font-black text-[#1e1b9b] hover:opacity-100"
+              className="text-3xl font-black bg-gradient-to-r from-[#1e1b9b] to-purple-600 bg-clip-text text-transparent"
             >
               Fable
             </Link>
+
             <p className="max-w-xs text-sm leading-relaxed text-gray-600">
               Empowering the next generation of storytellers through a premium
               digital reading experience. Built for readers who demand more from
@@ -31,125 +36,125 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Column 2: Product Links */}
+          {/* Product */}
           <div>
-            <h4 className="text-sm font-bold text-gray-900 mb-4">Product</h4>
+            <h4 className="mb-5 text-sm font-bold text-gray-900">Product</h4>
+
             <ul className="space-y-3 text-sm">
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#1e1b9b]">
-                  Browse Books
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#1e1b9b]">
-                  Writer Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#1e1b9b]">
-                  Premium Plan
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#1e1b9b]">
-                  App Downloads
-                </Link>
-              </li>
+              {[
+                "Browse Books",
+                "Writer Dashboard",
+                "Premium Plan",
+                "App Downloads",
+              ].map((item) => (
+                <li key={item}>
+                  <Link
+                    href="#"
+                    className="text-gray-600 transition hover:translate-x-1 hover:text-[#1e1b9b]"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Column 3: Legal & Support Quick Links */}
+          {/* Support */}
           <div>
-            <h4 className="text-sm font-bold text-gray-900 mb-4">
+            <h4 className="mb-5 text-sm font-bold text-gray-900">
               Legal & Support
             </h4>
+
             <ul className="space-y-3 text-sm">
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#1e1b9b]">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#1e1b9b]">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#1e1b9b]">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#1e1b9b]">
-                  Terms of Service
-                </Link>
-              </li>
+              {["About", "Contact", "Privacy Policy", "Terms of Service"].map(
+                (item) => (
+                  <li key={item}>
+                    <Link
+                      href="#"
+                      className="text-gray-600 transition hover:translate-x-1 hover:text-[#1e1b9b]"
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
-          {/* Column 4: Newsletter Signup Placeholder */}
-          <div className="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
+          {/* Newsletter */}
+          <div className="flex flex-col gap-4">
             <h4 className="text-sm font-bold text-gray-900">Stay Updated</h4>
-            <p className="text-xs text-gray-500 leading-normal">
+
+            <p className="text-xs leading-relaxed text-gray-500">
               Subscribe to get notified about new ebooks, features, and creator
               updates.
             </p>
+
             <form
               onSubmit={handleNewsletterSubmit}
-              className="flex flex-col gap-2"
+              className="flex flex-col gap-3"
             >
               <Input
                 type="email"
                 placeholder="Enter your email"
                 size="sm"
                 variant="bordered"
-                className="w-full rounded-xl border-gray-200 px-4 py-2.5 text-sm"
+                className=" rounded-xl bg-white/60 border border-white shadow-sm backdrop-blur-md"
                 required
               />
+
               <Button
                 type="submit"
-                size="sm"
-                className="w-full h-10 bg-[#1e1b9b] text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:bg-[#161373]"
+                className="
+                h-10 rounded-xl 
+                bg-gradient-to-r 
+                from-[#1e1b9b] 
+                to-purple-600 
+                text-white 
+                font-semibold
+                shadow-lg
+                transition
+                hover:scale-[1.02]
+                "
               >
-                <PaperPlane className="h-3.5 w-3.5" />
+                <PaperPlane className="h-4 w-4" />
                 Subscribe
               </Button>
             </form>
           </div>
         </div>
 
-        {/* Divider Line */}
-        <hr className="my-8 border-gray-300/60" />
+        {/* Divider */}
+        <div className="my-8 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
 
-        {/* Bottom Section: Copyright and Socials */}
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+        {/* Bottom */}
+        <div className="flex flex-col items-center justify-between gap-5 sm:flex-row">
           <p className="text-sm text-gray-600">
-            © 2024 Fable Scriptorium. All rights reserved.
+            © 2026 Fable Scriptorium. All rights reserved.
           </p>
 
-          {/* Gravity UI Social Icons */}
-          <div className="flex items-center gap-5 text-gray-700">
-            <Link
-              href="#"
-              className="text-gray-700 hover:text-[#1e1b9b]"
-              aria-label="Website"
-            >
-              <Globe className="h-5 w-5" />
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-700 hover:text-[#1e1b9b]"
-              aria-label="Contact Email"
-            >
-              <At className="h-5 w-5" />
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-700 hover:text-[#1e1b9b]"
-              aria-label="Share/Network"
-            >
-              <NodesRight className="h-5 w-5" />
-            </Link>
+          <div className="flex items-center gap-3">
+            {[Globe, At, NodesRight].map((Icon, index) => (
+              <Link
+                key={index}
+                href="#"
+                className="
+                flex h-10 w-10 items-center justify-center
+                rounded-full
+                border border-white/50
+                bg-white/40
+                text-gray-700
+                shadow-sm
+                backdrop-blur-md
+                transition
+                hover:-translate-y-1
+                hover:bg-white
+                hover:text-[#1e1b9b]
+                "
+              >
+                <Icon className="h-5 w-5" />
+              </Link>
+            ))}
           </div>
         </div>
       </div>

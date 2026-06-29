@@ -14,10 +14,12 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const router = useRouter();
-
   const pathname = usePathname();
+
   const { data: session } = authClient.useSession();
+
   const user = session?.user;
+
   if (pathname.startsWith("/dashboard")) {
     return null;
   }
@@ -34,7 +36,6 @@ export default function Navbar() {
       label: "Home",
       link: "/",
     },
-
     {
       label: "Browse Ebooks",
       link: "/browse-ebooks",
@@ -50,27 +51,39 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white">
+    <nav className=" sticky top-0 z-40 w-full border-b border-white/40 bg-white/40 backdrop-blur-xl shadow-sm ">
+      {/* Gradient glow */}
+      <div className=" absolute inset-0 -z-10 bg-gradient-to-r  from-blue-100/60 via-white/40 to-purple-100/60 " />
+
       <div className="mx-auto max-w-7xl px-6">
-        <header className="flex h-16 items-center justify-between">
+        <header className=" flex h-16 items-center justify-between ">
           {/* Left */}
 
-          <div className="flex items-center gap-8">
-            <Link href="/" className="text-2xl font-black text-[#1e1b9b]">
+          <div className="flex items-center gap-10">
+            <Link
+              href="/"
+              className=" text-3xl font-black bg-gradient-to-r from-[#1e1b9b] to-purple-600 bg-clip-text text-transparent "
+            >
               Fable
             </Link>
 
-            <ul className="hidden items-center gap-6 md:flex">
+            <ul className="hidden items-center gap-8 md:flex">
               {navItems.map((item) => (
                 <li key={item.link}>
                   <Link
                     href={item.link}
                     className={cn(
-                      "text-base font-semibold relative transition-colors",
+                      ` relative text-base font-semibold transition after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-[#1e1b9b] after:transition `,
 
                       isActive(item.link)
-                        ? "text-[#1e1b9b] border-b-2 border-[#1e1b9b] rounded-none"
-                        : "text-gray-500 hover:text-gray-900",
+                        ? `
+                        text-[#1e1b9b]
+                        after:scale-x-100
+                        `
+                        : `
+                        text-gray-600
+                        hover:text-gray-900
+                        `,
                     )}
                   >
                     {item.label}
@@ -83,11 +96,17 @@ export default function Navbar() {
                   <Link
                     href={`/dashboard/${user.role}`}
                     className={cn(
-                      "text-base font-semibold transition-colors",
+                      ` relative text-base font-semibold transition after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-[#1e1b9b] after:transition `,
 
                       isActive(`/dashboard/${user.role}`)
-                        ? "text-[#1e1b9b] border-b-2 border-[#1e1b9b] rounded-none  "
-                        : "text-gray-500 hover:text-gray-900",
+                        ? `
+                      text-[#1e1b9b]
+                      after:scale-x-100
+                      `
+                        : `
+                      text-gray-600
+                      hover:text-gray-900
+                      `,
                     )}
                   >
                     Dashboard
@@ -99,20 +118,24 @@ export default function Navbar() {
 
           {/* Right */}
 
-          <div className="hidden items-center gap-4 md:flex">
-            {user && <p>Hi, {user.name}</p>}
+          <div className="hidden items-center gap-5 md:flex">
+            {user && (
+              <p className=" rounded-full border border-white/50 bg-white/40 px-4 py-2 text-sm font-medium text-gray-700 backdrop-blur-md ">
+                Hi, {user.name}
+              </p>
+            )}
 
             {!user && (
               <>
                 <Link
                   href="/login"
-                  className="text-base font-medium text-gray-700"
+                  className=" font-medium text-gray-700 hover:text-[#1e1b9b] "
                 >
                   Login
                 </Link>
 
                 <Link href="/register">
-                  <Button className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white">
+                  <Button className=" rounded-xl bg-gradient-to-r from-[#1e1b9b] to-purple-600 px-6 font-semibold text-white shadow-lg hover:scale-105 transition ">
                     Register
                   </Button>
                 </Link>
@@ -122,7 +145,7 @@ export default function Navbar() {
             {user && (
               <Button
                 onClick={handleSignOut}
-                className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white"
+                className=" rounded-xl bg-gradient-to-r from-[#1e1b9b] to-purple-600 px-6 font-semibold text-white shadow-lg hover:scale-105 transition "
               >
                 Logout
               </Button>
@@ -131,29 +154,30 @@ export default function Navbar() {
 
           {/* Mobile */}
 
-          <div className="flex items-center md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? (
-                <Xmark className="h-6 w-6" />
-              ) : (
-                <Bars className="h-6 w-6" />
-              )}
-            </button>
-          </div>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className=" flex h-10 w-10 items-center justify-center rounded-xl border border-white/50 bg-white/50 backdrop-blur-md md:hidden "
+          >
+            {isMenuOpen ? (
+              <Xmark className="h-6 w-6" />
+            ) : (
+              <Bars className="h-6 w-6" />
+            )}
+          </button>
         </header>
       </div>
 
       {/* Mobile Menu */}
 
       {isMenuOpen && (
-        <div className="border-t bg-white px-6 py-4 md:hidden">
+        <div className=" mx-6 mb-4 rounded-2xl border border-white/50 bg-white/50 p-5 shadow-xl backdrop-blur-xl md:hidden ">
           <ul className="flex flex-col gap-4">
             {navItems.map((item) => (
               <li key={item.link}>
                 <Link
                   href={item.link}
                   className={cn(
-                    "block py-1 text-base font-semibold",
+                    "font-semibold",
 
                     isActive(item.link) ? "text-[#1e1b9b]" : "text-gray-600",
                   )}
@@ -167,20 +191,14 @@ export default function Navbar() {
               <li>
                 <Link
                   href={`/dashboard/${user.role}`}
-                  className={cn(
-                    "block py-1 text-base font-semibold",
-
-                    isActive(`/dashboard/${user.role}`)
-                      ? "text-[#1e1b9b]"
-                      : "text-gray-600",
-                  )}
+                  className="font-semibold text-gray-700"
                 >
                   Dashboard
                 </Link>
               </li>
             )}
 
-            <hr />
+            <hr className="border-gray-300/50" />
 
             {!user && (
               <>
@@ -192,7 +210,7 @@ export default function Navbar() {
                   <Button
                     as={Link}
                     href="/register"
-                    className="w-full bg-[#1e1b9b] text-white"
+                    className=" w-full rounded-xl bg-gradient-to-r from-[#1e1b9b] to-purple-600 text-white "
                   >
                     Register
                   </Button>
@@ -204,7 +222,7 @@ export default function Navbar() {
               <li>
                 <Button
                   onClick={handleSignOut}
-                  className="w-full bg-[#1e1b9b] text-white"
+                  className=" w-full rounded-xl bg-gradient-to-r from-[#1e1b9b] to-purple-600 text-white "
                 >
                   Logout
                 </Button>

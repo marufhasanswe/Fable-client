@@ -155,7 +155,11 @@ export default function EbookFilters() {
 
       {/* Apply */}
 
-      <Button color="primary" onPress={applyFilter} className="h-12">
+      <Button
+        color="primary"
+        onPress={applyFilter}
+        className="h-9 rounded-xl bg-gradient-to-r from-[#fcd34d] to-[#ffcb21] px-6 font-semibold text-gray-800 shadow-lg hover:scale-105 transition"
+      >
         Apply Filter
       </Button>
     </div>
