@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button, Link } from "@heroui/react";
 import { ChevronLeft, ChevronRight } from "@gravity-ui/icons";
+import { motion, AnimatePresence } from "framer-motion";
 
 const SLIDES = [
   {
@@ -13,7 +14,7 @@ const SLIDES = [
       "A modern sanctuary for independent storytelling. Explore exclusive titles from emerging voices and established masters in a premium reading environment.",
     primaryBtnText: "Browse Ebooks",
     secondaryBtnText: "Become Writer",
-    image: "/banner-img-01.png", // Replace with your cosmic swirl asset from image_e8dc2e.jpg
+    image: "/banner-img-01.png",
   },
   {
     id: 2,
@@ -23,30 +24,85 @@ const SLIDES = [
       "Dive deep into unfiltered universes crafted by independent global creators. Join a reading experience tailored around pure literary imagination.",
     primaryBtnText: "Explore Authors",
     secondaryBtnText: "View Tiers",
-    image: "/banner-img-02.png", // Replace with another story placeholder
+    image: "/banner-img-02.png",
   },
   {
     id: 3,
     tagline: "PREMIUM LITERARY REALM",
     title: "Your Library, Everywhere",
     description:
-      "Access curated fantasy, sci-fi, and independent thrillers seamlessly synchronized across all your devices. Curate your collection without boundaries.",
+      "Access curated fantasy, sci-fi, and independent thrillers seamlessly synchronized across all your devices.",
     primaryBtnText: "Get Premium",
     secondaryBtnText: "Learn More",
     image: "/banner-img-03.png",
   },
 ];
 
+// animation variants
+
+const textVariant = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+const buttonVariant = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: 0.4,
+    },
+  },
+};
+
+const imageVariant = {
+  hidden: {
+    opacity: 0,
+    scale: 0.85,
+    rotate: -3,
+  },
+
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  },
+};
+
 export default function HeroBanner() {
   const [current, setCurrent] = useState(0);
 
-  // Optional: Auto-slide every 6 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev === SLIDES.length - 1 ? 0 : prev + 1));
     }, 6000);
+
     return () => clearInterval(timer);
   }, []);
+
+  const slide = SLIDES[current];
 
   const handlePrev = () => {
     setCurrent((prev) => (prev === 0 ? SLIDES.length - 1 : prev - 1));
@@ -57,104 +113,112 @@ export default function HeroBanner() {
   };
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#fafafa] py-16 lg:py-24">
-      {/* Interactive Sliders Track */}
-      <div
-        className="flex transition-transform duration-700 ease-out"
-        style={{ transform: `translateX(-${current * 100}%)` }}
-      >
-        {SLIDES.map((slide) => (
-          <div
+    <section className=" relative w-full overflow-hidden bg-[#fafafa] py-16 lg:py-24 ">
+      <div className=" mx-auto max-w-7xl px-6 md:px-12 lg:px-24 ">
+        <AnimatePresence mode="wait">
+          <motion.div
             key={slide.id}
-            className="w-full shrink-0 px-6 md:px-12 lg:px-24"
+            className=" grid grid-cols-1 items-center gap-12 md:grid-cols-2 "
+            initial="hidden"
+            animate="visible"
+            exit={{
+              opacity: 0,
+              x: -40,
+            }}
           >
-            <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 md:grid-cols-2">
-              {/* Left Column: Typography Content */}
-              <div className="flex flex-col justify-center">
-                <span className="text-xs font-bold tracking-wider text-[#1e1b9b] uppercase mb-3">
-                  {slide.tagline}
-                </span>
-                <h1 className="text-4xl font-black tracking-tight text-[#0f111a] sm:text-5xl lg:text-6xl leading-[1.1] mb-6">
-                  {slide.title}
-                </h1>
-                <p className="text-base leading-relaxed text-gray-500 max-w-xl mb-8">
-                  {slide.description}
-                </p>
+            {/* TEXT */}
 
-                {/* Actions strictly matching image_e8dc2e.jpg */}
-                <div className="flex flex-wrap gap-4">
-                  <Button
-                    as={Link}
-                    href="#"
-                    className="rounded-xl bg-[#1e1b9b] px-7 py-3 font-semibold text-white transition-all hover:bg-[#161373] shadow-md shadow-blue-900/10"
-                  >
-                    {slide.primaryBtnText}
-                  </Button>
-                  <Button
-                    as={Link}
-                    href="#"
-                    className="rounded-xl bg-[#fcd34d] border border-amber-400 px-7 py-3 font-semibold text-gray-900 transition-all hover:bg-[#fbbf24]"
-                  >
-                    {slide.secondaryBtnText}
-                  </Button>
-                </div>
-              </div>
+            <div className="flex flex-col">
+              <motion.span
+                variants={textVariant}
+                className=" text-xs font-bold tracking-wider uppercase text-[#1e1b9b] mb-3 "
+              >
+                {slide.tagline}
+              </motion.span>
 
-              {/* Right Column: Dynamic Framed Image Card */}
-              <div className="flex justify-center md:justify-end">
-                <div className="relative aspect-square w-full max-w-[440px] overflow-hidden rounded-2xl bg-[#0b0f19] shadow-2xl shadow-black/30 transition-transform duration-500 hover:scale-[1.01]">
-                  {/* Outer glowing vignette backdrop effect matching image */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10" />
+              <motion.h1
+                variants={textVariant}
+                className=" text-4xl font-black tracking-tight text-[#0f111a] sm:text-5xl lg:text-6xl leading-[1.1] mb-6 "
+              >
+                {slide.title}
+              </motion.h1>
 
-                  {/* Replace source path with your target cosmic illustrations */}
-                  <div className="w-full h-full flex items-center justify-center text-gray-500 relative">
-                    <img
-                      src={slide.image}
-                      alt={slide.title}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        // Safe fallback styling if image doesn't exist yet
-                        e.target.style.display = "none";
-                      }}
-                    />
-                    {/* Simulated visual if local images aren't present yet */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/20 via-slate-900 to-black pointer-events-none" />
-                  </div>
-                </div>
-              </div>
+              <motion.p
+                variants={textVariant}
+                className=" max-w-xl text-gray-500 leading-relaxed mb-8 "
+              >
+                {slide.description}
+              </motion.p>
+
+              <motion.div
+                variants={buttonVariant}
+                className=" flex flex-wrap gap-4 "
+              >
+                <Button
+                  as={Link}
+                  href="#"
+                  className=" rounded-xl bg-[#1e1b9b] px-7 py-3 font-semibold text-white "
+                >
+                  {slide.primaryBtnText}
+                </Button>
+
+                <Button
+                  as={Link}
+                  href="#"
+                  className=" rounded-xl bg-[#fcd34d] border border-amber-400 px-7 py-3 font-semibold text-gray-900 "
+                >
+                  {slide.secondaryBtnText}
+                </Button>
+              </motion.div>
             </div>
-          </div>
-        ))}
+
+            {/* IMAGE */}
+
+            <motion.div
+              variants={imageVariant}
+              className=" flex justify-center md:justify-end "
+            >
+              <div className=" relative aspect-square w-full max-w-[440px] overflow-hidden rounded-2xl bg-black shadow-2xl ">
+                <div className=" absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 " />
+
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className=" h-full w-full object-cover "
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      {/* Manual Left/Right Nav Arrows */}
+      {/* arrows */}
+
       <button
         onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white/80 text-gray-700 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:text-[#1e1b9b]"
-        aria-label="Previous slide"
+        className=" absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white shadow "
       >
-        <ChevronLeft className="h-5 w-5" />
-      </button>
-      <button
-        onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white/80 text-gray-700 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:text-[#1e1b9b]"
-        aria-label="Next slide"
-      >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronLeft />
       </button>
 
-      {/* Carousel Bottom Indicators Layout */}
-      <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+      <button
+        onClick={handleNext}
+        className=" absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white shadow "
+      >
+        <ChevronRight />
+      </button>
+
+      {/* indicators */}
+
+      <div className=" absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2 ">
         {SLIDES.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              current === index
-                ? "w-8 bg-[#1e1b9b]"
-                : "w-2 bg-gray-300 hover:bg-gray-400"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
+            className={` h-1.5 rounded-full transition-all ${current === index ? "w-8 bg-[#1e1b9b]" : "w-2 bg-gray-300"} `}
           />
         ))}
       </div>

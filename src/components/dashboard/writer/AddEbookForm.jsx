@@ -30,15 +30,18 @@ export default function AddEbookForm() {
   const [coverImage, setCoverImage] = useState(null);
 
   const genres = [
-    "Programming",
-    "Web Development",
-    "Business",
-    "Marketing",
-    "Design",
+    "Fiction",
+    "Mystery",
+    "Romance",
+    "Sci-Fi",
+    "Fantasy",
     "Self Development",
     "Education",
     "Technology",
-    "Finance",
+    "Horror",
+    "Web Development",
+    "Programming",
+    "Marketing",
   ];
 
   const handleImageChange = async (e) => {
