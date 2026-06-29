@@ -16,15 +16,17 @@ export default function Navbar() {
   const router = useRouter();
 
   const pathname = usePathname();
-
   const { data: session } = authClient.useSession();
-
   const user = session?.user;
+  if (pathname.startsWith("/dashboard")) {
+    return null;
+  }
 
-  const handleSignOut = () => {
-    authClient.signOut();
+  const handleSignOut = async () => {
+    await authClient.signOut();
 
     router.push("/");
+    router.refresh();
   };
 
   const navItems = [

@@ -2,11 +2,12 @@ import { auth } from "@/lib/auth";
 
 import { Button, Drawer, Avatar } from "@heroui/react";
 
-import { Bars } from "@gravity-ui/icons";
+import { ArrowRightFromSquare, Bars } from "@gravity-ui/icons";
 
 import { headers } from "next/headers";
 
 import SidebarLink from "./SidebarLink";
+import LogoutButton from "./LogoutButton";
 
 export async function DashboardSidebar() {
   const dashboardNavItems = {
@@ -123,6 +124,13 @@ export async function DashboardSidebar() {
 
   const navItems = dashboardNavItems[role] || [];
 
+  const handleSignOut = async () => {
+    await auth.api.signOut();
+
+    router.push("/");
+    router.refresh();
+  };
+
   const navContent = (
     <div className="flex flex-col h-full justify-between p-5 bg-[#eff3fc]">
       <div className="space-y-7">
@@ -142,20 +150,22 @@ export async function DashboardSidebar() {
       </div>
 
       {user && (
-        <div className="border-t border-[#d1d5db] pt-4 flex items-center gap-3 px-1.5">
-          <Avatar
-            src={user.image || undefined}
-            name={user.name || "User"}
-            size="sm"
-          />
+        <div className="border-t border-[#d1d5db] pt-4 space-y-4">
+          <div className="flex items-center gap-3 px-1.5">
+            <Avatar>
+              <Avatar.Image alt={user?.name} src={user?.image || undefined} />
+              <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
+            </Avatar>
+            <div className="flex flex-col min-w-0">
+              <p className="text-sm font-bold truncate text-[#1a0dab]">
+                {user.name}
+              </p>
 
-          <div className="flex flex-col min-w-0">
-            <p className="text-sm font-bold truncate text-[#1a0dab]">
-              {user.name}
-            </p>
-
-            <p className="text-xs text-[#5c5c70] capitalize">{role}</p>
+              <p className="text-xs text-[#5c5c70] capitalize">{role}</p>
+            </div>
           </div>
+
+          <LogoutButton />
         </div>
       )}
     </div>
@@ -165,18 +175,40 @@ export async function DashboardSidebar() {
     <>
       {/* Desktop */}
 
-      <aside className="hidden md:flex flex-col w-64 h-screen border-r border-[#d8dee9] sticky top-0">
+      <aside
+        className="
+          hidden
+          md:flex
+          flex-col
+          w-64
+          h-screen
+          border-r
+          border-[#d8dee9]
+          sticky
+          top-0
+        "
+      >
         {navContent}
       </aside>
 
       {/* Mobile */}
 
-      <div className="md:hidden p-4 flex items-center justify-between bg-[#eff3fc] border-b">
+      <div
+        className="
+          md:hidden
+          p-4 
+          flex
+          items-center
+          justify-between
+          bg-[#eff3fc]
+          border-b
+        "
+      >
         <h3 className="text-lg font-bold text-[#1a0dab]">Creator Hub</h3>
 
         <Drawer>
-          <Button variant="flat" size="sm" startContent={<Bars />}>
-            Menu
+          <Button variant="flat" size="sm" className="text-center">
+            <Bars /> Menu
           </Button>
 
           <Drawer.Backdrop>
