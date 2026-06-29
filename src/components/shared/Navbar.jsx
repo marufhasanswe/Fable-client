@@ -3,75 +3,114 @@
 import { useState } from "react";
 import { Link, Button } from "@heroui/react";
 import { Bars, Xmark } from "@gravity-ui/icons";
+
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+
+import { useRouter, usePathname } from "next/navigation";
+
+const cn = (...args) => args.filter(Boolean).join(" ");
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const router = useRouter();
+
+  const pathname = usePathname();
+
   const { data: session } = authClient.useSession();
+
   const user = session?.user;
+
   const handleSignOut = () => {
     authClient.signOut();
+
     router.push("/");
+  };
+
+  const navItems = [
+    {
+      label: "Home",
+      link: "/",
+    },
+
+    {
+      label: "Browse Ebooks",
+      link: "/browse-ebooks",
+    },
+  ];
+
+  const isActive = (link) => {
+    if (link === "/") {
+      return pathname === "/";
+    }
+
+    return pathname === link || pathname.startsWith(link + "/");
   };
 
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white">
       <div className="mx-auto max-w-7xl px-6">
         <header className="flex h-16 items-center justify-between">
-          {/* Left: Brand Logo & Desktop Nav Links */}
+          {/* Left */}
+
           <div className="flex items-center gap-8">
-            {/* Logo matching the image typography */}
-            <Link
-              href="/"
-              className="text-2xl font-black text-[#1e1b9b] hover:opacity-100"
-            >
+            <Link href="/" className="text-2xl font-black text-[#1e1b9b]">
               Fable
             </Link>
 
-            {/* Desktop Navigation */}
             <ul className="hidden items-center gap-6 md:flex">
-              <li>
-                <Link
-                  href="/"
-                  className="relative text-base font-semibold text-[#1e1b9b] hover:text-[#1e1b9b] after:absolute after:-bottom-[21px] after:left-0 after:h-[2px] after:w-full after:bg-[#1e1b9b]"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/browse-ebooks"
-                  className="text-base text-gray-500 hover:text-gray-900"
-                >
-                  Browse Ebooks
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/dashboard/${user?.role ? user.role : ""}`}
-                  className={`text-base text-gray-500 hover:text-gray-900`}
-                >
-                  Dashboard
-                </Link>
-              </li>
+              {navItems.map((item) => (
+                <li key={item.link}>
+                  <Link
+                    href={item.link}
+                    className={cn(
+                      "text-base font-semibold relative transition-colors",
+
+                      isActive(item.link)
+                        ? "text-[#1e1b9b] border-b-2 border-[#1e1b9b] rounded-none"
+                        : "text-gray-500 hover:text-gray-900",
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+
+              {user && (
+                <li>
+                  <Link
+                    href={`/dashboard/${user.role}`}
+                    className={cn(
+                      "text-base font-semibold transition-colors",
+
+                      isActive(`/dashboard/${user.role}`)
+                        ? "text-[#1e1b9b] border-b-2 border-[#1e1b9b] rounded-none  "
+                        : "text-gray-500 hover:text-gray-900",
+                    )}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
-          {/* Right: Auth Action Buttons */}
+          {/* Right */}
+
           <div className="hidden items-center gap-4 md:flex">
             {user && <p>Hi, {user.name}</p>}
+
             {!user && (
               <>
                 <Link
                   href="/login"
-                  className="text-base font-medium text-gray-700 hover:text-gray-900"
+                  className="text-base font-medium text-gray-700"
                 >
                   Login
                 </Link>
+
                 <Link href="/register">
-                  <Button className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white hover:bg-[#161373]">
+                  <Button className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white">
                     Register
                   </Button>
                 </Link>
@@ -81,22 +120,17 @@ export default function Navbar() {
             {user && (
               <Button
                 onClick={handleSignOut}
-                as={Link}
-                href="#"
-                className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white hover:bg-[#161373]"
+                className="rounded-xl bg-[#1e1b9b] px-5 py-2 font-semibold text-white"
               >
                 Logout
               </Button>
             )}
           </div>
 
-          {/* Mobile Hamburger Toggle Buttons (Gravity UI Icons) */}
+          {/* Mobile */}
+
           <div className="flex items-center md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
-              aria-label="Toggle menu"
-            >
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? (
                 <Xmark className="h-6 w-6" />
               ) : (
@@ -107,43 +141,73 @@ export default function Navbar() {
         </header>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Menu */}
+
       {isMenuOpen && (
-        <div className="border-t border-gray-100 bg-white px-6 py-4 shadow-md md:hidden">
+        <div className="border-t bg-white px-6 py-4 md:hidden">
           <ul className="flex flex-col gap-4">
-            <li>
-              <Link
-                href="#"
-                className="block py-1 text-base font-semibold text-[#1e1b9b]"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="block py-1 text-base text-gray-600">
-                Browse Ebooks
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="block py-1 text-base text-gray-600">
-                Dashboard
-              </Link>
-            </li>
-            <hr className="my-2 border-gray-100" />
-            <li>
-              <Link href="#" className="block py-1 text-base text-gray-600">
-                Login
-              </Link>
-            </li>
-            <li className="pt-2">
-              <Button
-                as={Link}
-                href="#"
-                className="w-full rounded-xl bg-[#1e1b9b] font-semibold text-white"
-              >
-                Logout
-              </Button>
-            </li>
+            {navItems.map((item) => (
+              <li key={item.link}>
+                <Link
+                  href={item.link}
+                  className={cn(
+                    "block py-1 text-base font-semibold",
+
+                    isActive(item.link) ? "text-[#1e1b9b]" : "text-gray-600",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+
+            {user && (
+              <li>
+                <Link
+                  href={`/dashboard/${user.role}`}
+                  className={cn(
+                    "block py-1 text-base font-semibold",
+
+                    isActive(`/dashboard/${user.role}`)
+                      ? "text-[#1e1b9b]"
+                      : "text-gray-600",
+                  )}
+                >
+                  Dashboard
+                </Link>
+              </li>
+            )}
+
+            <hr />
+
+            {!user && (
+              <>
+                <li>
+                  <Link href="/login">Login</Link>
+                </li>
+
+                <li>
+                  <Button
+                    as={Link}
+                    href="/register"
+                    className="w-full bg-[#1e1b9b] text-white"
+                  >
+                    Register
+                  </Button>
+                </li>
+              </>
+            )}
+
+            {user && (
+              <li>
+                <Button
+                  onClick={handleSignOut}
+                  className="w-full bg-[#1e1b9b] text-white"
+                >
+                  Logout
+                </Button>
+              </li>
+            )}
           </ul>
         </div>
       )}

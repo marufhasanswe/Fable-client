@@ -5,7 +5,6 @@ import { Table } from "@heroui/react";
 import { ArrowDownToLine } from "lucide-react";
 
 export default function TransactionsTable({ purchasesEbooks = [] }) {
-  console.log(purchasesEbooks);
   // State to track whether the user clicked "View All"
   const [showAll, setShowAll] = useState(false);
 
